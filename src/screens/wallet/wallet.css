@@ -1,0 +1,14 @@
+.wallet-connect-button.wallet-adapter-button {
+  border-color: #f0c775 !important;
+  background: linear-gradient(135deg, #c7963e, #8a6127) !important;
+  color: #24160c !important;
+  font-weight: 700 !important;
+}
+
+.wallet-connect-button.wallet-adapter-button:hover {
+  border-color: #f0c775 !important;
+  background: linear-gradient(135deg, #c7963e, #8a6127) !important;
+  color: #24160c !important;
+  opacity: 0.9;
+}
+  
