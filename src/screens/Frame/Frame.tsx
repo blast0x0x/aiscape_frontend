@@ -206,13 +206,10 @@ export const Frame = (): JSX.Element => {
           <div className="relative min-h-screen px-4 pt-10 md:pt-18">
             {/* Background Image Layer - positioned to blend with background color */}
             <div
-              className="absolute max-w-[1920px] mx-auto inset-0 pointer-events-none"
+              className="absolute inset-0 pointer-events-none aiscape-bg-layer"
               style={{
                 backgroundImage: 'url(/freepik--a-dark-and-mysterious-forest-in-aiscape-where-anci--908.png)',
-                backgroundSize: 'cover',
-                backgroundPosition: 'center',
-                backgroundRepeat: 'no-repeat',
-                opacity: 0.25,
+                opacity: 0.15,
                 mixBlendMode: 'soft-light',
                 zIndex: 1
               }}

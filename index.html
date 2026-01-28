@@ -32,6 +32,27 @@
           opacity: 0;
         }
       }
+
+      /* Background image defaults */
+      .aiscape-bg-layer {
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+      }
+
+      /* Tall screens (e.g. 1:2): bias upward so it feels stable */
+      @media (max-aspect-ratio: 3/4) {
+        .aiscape-bg-layer {
+          background-position: center top;
+        }
+      }
+
+      /* Wide screens: keep image aspect ratio (avoid heavy cropping) */
+      @media (min-aspect-ratio: 16/9) {
+        .aiscape-bg-layer {
+          background-size: contain;
+        }
+      }
     </style>
     <link href="tailwind.css" rel="stylesheet" />
     <link href="tailwind.css" rel="stylesheet" />
