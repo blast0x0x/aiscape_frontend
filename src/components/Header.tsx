@@ -43,7 +43,7 @@ export const Header: React.FC<HeaderProps> = ({ playerCount = 0 }) => {
         boxShadow: '0 4px 16px rgba(0, 0, 0, 0.8)'
       }}
     >
-      <div className="max-w-[1920px] mx-auto w-full">
+      <div className="mx-auto w-full">
         <div className="flex items-center justify-between">
           {/* Header Left - Player Count */}
           <div
