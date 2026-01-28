@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useMemo } from "react";
+import PHWallet from "../../screens/wallet/wallet";
 import { Button } from "../../components/ui/button";
 import { Input } from "../../components/ui/input";
 import { Header } from "../../components/Header";
@@ -176,9 +177,9 @@ export const Frame = (): JSX.Element => {
     <>
       <Header playerCount={playerCount} />
       <div className="flex flex-row justify-center w-full min-h-screen"
-      style={{
-        background: 'radial-gradient(circle at top, #4a3624 0%, #17120c 60%)',
-      }}
+        style={{
+          background: 'radial-gradient(circle at top, #4a3624 0%, #17120c 60%)',
+        }}
       >
         <div className="w-full min-h-screen relative overflow-hidden">
           {/* Light Bubble Effect */}
@@ -205,7 +206,7 @@ export const Frame = (): JSX.Element => {
           <div className="relative min-h-screen px-4 pt-10 md:pt-18">
             {/* Background Image Layer - positioned to blend with background color */}
             <div
-              className="absolute inset-0 pointer-events-none"
+              className="absolute max-w-[1920px] mx-auto inset-0 pointer-events-none"
               style={{
                 backgroundImage: 'url(/freepik--a-dark-and-mysterious-forest-in-aiscape-where-anci--908.png)',
                 backgroundSize: 'cover',
@@ -216,7 +217,7 @@ export const Frame = (): JSX.Element => {
                 zIndex: 1
               }}
             />
-            
+
             {/* Content Layer */}
             <div className="relative z-10 overflow-hidden">
               {/* Logo - constrained to section */}
@@ -264,16 +265,25 @@ export const Frame = (): JSX.Element => {
 
 
                 <div className="flex justify-center pt-2">
+
+                  {/* Wallet Button */}
+                  <div className="flex items-center justify-center mb-2 mr-2">
+                    <PHWallet />
+                  </div>
+
                   <Button
                     className="inline-block uppercase [font-family:'Cinzel',Helvetica]"
                     style={{
                       padding: '10px 26px',
                       textDecoration: 'none',
                       letterSpacing: '0.16em',
-                      fontSize: '1.125rem',
-                      borderRadius: '999px',
-                      border: '1px solid rgba(240, 199, 117, 0.85)',
-                      background: 'linear-gradient(135deg, #f0c775, #b27b32)',
+                      fontSize: '1rem',
+                      height: "40px",
+                      borderRadius: "32px",
+                      borderColor: "#f0c775",
+                      borderWidth: "1px",
+                      borderStyle: "solid",
+                      background: 'linear-gradient(135deg, #c7963e, #8a6127)',
                       color: '#24160c',
                       fontWeight: 700,
                       boxShadow: '0 0 18px rgba(0, 0, 0, 0.85)',

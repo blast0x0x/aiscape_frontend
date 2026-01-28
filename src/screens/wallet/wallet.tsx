@@ -31,6 +31,7 @@ const PHWallet: React.FC = () => {
           borderWidth: "1px",
           borderStyle: "solid",
           background: "linear-gradient(135deg, #c7963e, #8a6127)",
+          boxShadow: '0 0 18px rgba(0, 0, 0, 0.85)',
           color: "#24160c",
           fontWeight: "700",
           fontSize: "1rem",

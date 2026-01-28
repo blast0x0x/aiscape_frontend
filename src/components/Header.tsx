@@ -1,5 +1,4 @@
 import React, { useMemo, useState } from "react";
-import PHWallet from "../screens/wallet/wallet";
 import { Card } from "./ui/card";
 
 interface HeaderProps {
@@ -9,18 +8,18 @@ interface HeaderProps {
 const navItems = [
   { label: "Home", id: "home" },
   { label: "Store", id: "store" },
-  { label: "Chart", id: "chart" },
-  { label: "Vote", id: "vote" },
+  { label: "Deposit", id: "deposit" },
 ];
 
 export const Header: React.FC<HeaderProps> = ({ playerCount = 0 }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [hoveredNavId, setHoveredNavId] = useState<string | null>(null);
   const initialActiveId = useMemo(() => {
     // Best-effort active tab based on URL path (works without react-router)
-    if (typeof window === "undefined") return "home";
+    if (typeof window === "undefined") return "deposit";
     const path = window.location.pathname.replace(/^\/+/, "").split("/")[0];
-    const id = path || "home";
-    return navItems.some((n) => n.id === id) ? id : "home";
+    const id = path || "deposit";
+    return navItems.some((n) => n.id === id) ? id : "deposit";
   }, []);
   const [activeNavId, setActiveNavId] = useState<string>(initialActiveId);
 
@@ -47,11 +46,25 @@ export const Header: React.FC<HeaderProps> = ({ playerCount = 0 }) => {
       <div className="max-w-[1920px] mx-auto w-full">
         <div className="flex items-center justify-between">
           {/* Header Left - Player Count */}
-          {/* <div className="header-left flex items-center">
-            <div className="player-count text-white [font-family:'Inter',Helvetica] text-sm md:text-base">
-              Players online: <span id="player-count" className="text-[#8FF0F3] font-semibold">{playerCount}</span>
+          <div
+              className="player-count [font-family:'Inter',Helvetica]"
+              style={{
+                fontSize: "0.8rem",
+                textTransform: "uppercase",
+                letterSpacing: "0.12em",
+                color: "#f0c775",
+                padding: "4px 10px",
+                borderRadius: "999px",
+                border: "1px solid rgba(240, 199, 117, 0.6)",
+                background: "rgba(0, 0, 0, 0.45)",
+                whiteSpace: "nowrap",
+              }}
+            >
+              Players online:{" "}
+              <span id="player-count" style={{ color: "#f0c775", fontWeight: 700 }}>
+                {playerCount}
+              </span>
             </div>
-          </div> */}
 
           {/* Right Side - Menu Toggle */}
           <div className="flex items-center">
@@ -89,10 +102,12 @@ export const Header: React.FC<HeaderProps> = ({ playerCount = 0 }) => {
           >
             <div className="flex flex-col md:flex-row md:items-center md:space-x-4 space-y-4 md:space-y-0 py-4 md:py-0">
               {/* Navigation Items */}
-              <div className="flex flex-wrap gap-2 md:gap-4 justify-center md:justify-start">
+              <div className="flex flex-wrap items-center gap-2 md:gap-4 justify-center md:justify-start">
                 {navItems.map((item) => (
                   (() => {
                     const isActive = activeNavId === item.id;
+                    const isHovered = hoveredNavId === item.id;
+                    const isHighlighted = isActive || isHovered;
                     return (
                   <Card
                     key={item.id}
@@ -102,34 +117,56 @@ export const Header: React.FC<HeaderProps> = ({ playerCount = 0 }) => {
                       textTransform: "uppercase",
                       letterSpacing: "0.08em",
                       fontSize: "0.9rem",
-                      padding: "6px 14px",
+                      lineHeight: 1,
+                      padding: "10px 14px",
                       borderRadius: "999px",
-                      border: isActive ? "1px solid #f0c775" : "1px solid transparent",
-                      background: isActive
+                      border: isHighlighted ? "1px solid #f0c775" : "1px solid transparent",
+                      background: isHighlighted
                         ? "linear-gradient(135deg, #5b4027, #3b2919)"
                         : "transparent",
-                      color: isActive ? "#ffffff" : "#dcdfe5",
-                      transform: isActive ? "translateY(-1px)" : "translateY(0)",
+                      color: isHighlighted ? "#ffffff" : "#dcdfe5",
                       transition:
                         "background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.1s ease"
                     }}
+                    onMouseEnter={() => setHoveredNavId(item.id)}
+                    onMouseLeave={() => setHoveredNavId(null)}
                     onClick={() => {
                       setActiveNavId(item.id);
                       handleNavClick(`/${item.id}`);
                     }}
                   >
-                    <div className="[font-family:'Cinzel',Helvetica] font-normal">
+                    <div className="[font-family:'Cinzel',Helvetica] font-normal leading-none">
                       {item.label}
                     </div>
                   </Card>
                     );
                   })()
                 ))}
-              </div>
-              
-              {/* Wallet Button */}
-              <div className="flex items-center justify-center md:ml-4">
-                <PHWallet />
+
+                {/* Play now (after Deposit) */}
+                <Card
+                  className="rounded-[999px] inline-flex items-center justify-center cursor-pointer select-none border"
+                  style={{
+                    textDecoration: "none",
+                    textTransform: "uppercase",
+                    letterSpacing: "0.08em",
+                    fontSize: "0.9rem",
+                    lineHeight: 1,
+                    padding: "10px 14px",
+                    borderRadius: "999px",
+                    border: "1px solid #f0c775",
+                    background: "linear-gradient(135deg, #c7963e, #8a6127)",
+                    color: "#24160c",
+                    fontWeight: 700,
+                    transition:
+                      "background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.1s ease",
+                  }}
+                  onClick={() => handleNavClick("/play-now")}
+                >
+                  <div className="[font-family:'Cinzel',Helvetica] font-bold text-black leading-none">
+                    Play now
+                  </div>
+                </Card>
               </div>
             </div>
           </nav>
