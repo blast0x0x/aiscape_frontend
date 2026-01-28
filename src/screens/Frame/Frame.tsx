@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { Button } from "../../components/ui/button";
 import { Input } from "../../components/ui/input";
 import { Header } from "../../components/Header";
@@ -158,15 +158,19 @@ export const Frame = (): JSX.Element => {
   const [username, setUsername] = useState<string>("");
   const [tokenAmount, setTokenAmount] = useState<string>("");
 
-  // Generate random bubbles
-  const bubbles = Array.from({ length: 30 }).map((_, i) => ({
-    id: i,
-    size: Math.random() * 45 + 20, // 20-65px
-    left: Math.random() * 100, // 0-100%
-    animationDuration: Math.random() * 15 + 7, // 7-22s
-    animationDelay: Math.random() * 5, // 0-5s
-    opacity: Math.random() * 0.5 + 0.1, // 0.1-0.6
-  }));
+  // Generate random bubbles once (stable across re-renders so typing doesn't change them)
+  const bubbles = useMemo(
+    () =>
+      Array.from({ length: 30 }).map((_, i) => ({
+        id: i,
+        size: Math.random() * 45 + 20, // 20-65px
+        left: Math.random() * 100, // 0-100%
+        animationDuration: Math.random() * 15 + 7, // 7-22s
+        animationDelay: Math.random() * 5, // 0-5s
+        opacity: Math.random() * 0.5 + 0.1, // 0.1-0.6
+      })),
+    []
+  );
 
   return (
     <>
@@ -176,7 +180,7 @@ export const Frame = (): JSX.Element => {
         background: 'radial-gradient(circle at top, #4a3624 0%, #17120c 60%)',
       }}
       >
-        <div className="w-full max-w-[1920px] min-h-screen relative overflow-hidden">
+        <div className="w-full min-h-screen relative overflow-hidden">
           {/* Light Bubble Effect */}
           <div className="absolute inset-0 pointer-events-none z-0">
             {bubbles.map((bubble) => (
@@ -214,15 +218,18 @@ export const Frame = (): JSX.Element => {
             />
             
             {/* Content Layer */}
-            <div className="relative z-10">
-              <img
-                className="absolute w-[280px] md:w-[383px] h-auto md:h-[180px] top-0 md:top-0 left-1/2 -translate-x-1/2 object-cover transition-transform hover:scale-105 z-20"
-                alt="Wide VARIANT"
-                src="/wide-variant-1.png"
-              />
+            <div className="relative z-10 overflow-hidden">
+              {/* Logo - constrained to section */}
+              <div className="absolute top-0 left-0 right-0 flex justify-center z-20 px-4" style={{ maxHeight: '180px' }}>
+                <img
+                  className="w-full max-w-[280px] md:max-w-[383px] h-auto max-h-[140px] md:max-h-[180px] object-contain transition-transform hover:scale-105"
+                  alt="Wide VARIANT"
+                  src="/wide-variant-1.png"
+                />
+              </div>
 
               <div className="pt-[200px] md:pt-[180px] px-4 md:px-0 max-w-[800px] mx-auto">
-                <div className="[text-shadow:0px_0px_3.6px_#000000] [font-family:'Cinzel',Helvetica] font-normal text-[#f6dda2] text-xl md:text-2xl mb-2">
+                <div className="[text-shadow:0px_0px_3.6px_#000000] [font-family:'Cinzel',Helvetica] font-bold text-[#f6dda2] text-xl md:text-xl mb-2">
                   Enter Username (please ensure this is correct)
                 </div>
                 <div
@@ -232,14 +239,13 @@ export const Frame = (): JSX.Element => {
                   }}
                 >
                   <Input
-                    className="w-full h-[50px] md:h-[61px] bg-[#00000059] [font-family:'Cinzel',Helvetica] font-normal rounded-lg shadow-[0px_0px_33.8px_#7e5a35] text-white mb-6 focus:shadow-[0px_0px_40px_#7e5a35] transition-shadow duration-300 border-[#f6dda28c]"
+                    className="w-full h-[50px] md:h-[61px] bg-[#00000059] [font-family:'Cinzel',Helvetica] font-normal rounded-lg shadow-[0px_0px_33.8px_#7e5a35] text-[#f0c775] text-sm md:text-base mb-6 focus:shadow-[0px_0px_40px_#7e5a35] transition-shadow duration-300 border-[#f6dda28c]"
                     placeholder="Username"
                     onChange={(e) => setUsername(e.target.value)}
                   />
                 </div>
 
-
-                <div className="[text-shadow:0px_0px_3.6px_#000000] [font-family:'Cinzel',Helvetica] font-normal text-[#f6dda2] text-xl md:text-2xl mb-2">
+                <div className="[text-shadow:0px_0px_3.6px_#000000] [font-family:'Cinzel',Helvetica] font-bold text-[#f6dda2] text-xl md:text-xl mb-2">
                   Enter desired amount of tokens
                 </div>
                 <div
@@ -249,7 +255,7 @@ export const Frame = (): JSX.Element => {
                   }}
                 >
                   <Input
-                    className="w-full h-[50px] md:h-[61px] bg-[#00000059] [font-family:'Cinzel',Helvetica] font-normal rounded-lg shadow-[0px_0px_33.8px_#7e5a35] text-white mb-6 focus:shadow-[0px_0px_40px_#7e5a35] transition-shadow duration-300 border-[#f6dda28c]"
+                    className="w-full h-[50px] md:h-[61px] bg-[#00000059] [font-family:'Cinzel',Helvetica] font-normal rounded-lg shadow-[0px_0px_33.8px_#7e5a35] text-[#f0c775] text-sm md:text-base mb-6 focus:shadow-[0px_0px_40px_#7e5a35] transition-shadow duration-300 border-[#f6dda28c]"
                     type="number"
                     placeholder="Amount"
                     onChange={(e) => setTokenAmount(e.target.value)}
@@ -379,7 +385,7 @@ export const Frame = (): JSX.Element => {
           fontSize: '0.85rem'
         }}
       >
-        <div className="max-w-[1920px] mx-auto">
+        <div className="mx-auto">
           <p className="[font-family:'Cinzel',Helvetica]">
             © 2025-2026 RSPS-Casino. All rights reserved | We are not affiliated with Jagex or RuneScape.
           </p>

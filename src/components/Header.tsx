@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import PHWallet from "../screens/wallet/wallet";
 import { Card } from "./ui/card";
 
@@ -15,6 +15,14 @@ const navItems = [
 
 export const Header: React.FC<HeaderProps> = ({ playerCount = 0 }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const initialActiveId = useMemo(() => {
+    // Best-effort active tab based on URL path (works without react-router)
+    if (typeof window === "undefined") return "home";
+    const path = window.location.pathname.replace(/^\/+/, "").split("/")[0];
+    const id = path || "home";
+    return navItems.some((n) => n.id === id) ? id : "home";
+  }, []);
+  const [activeNavId, setActiveNavId] = useState<string>(initialActiveId);
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -83,20 +91,39 @@ export const Header: React.FC<HeaderProps> = ({ playerCount = 0 }) => {
               {/* Navigation Items */}
               <div className="flex flex-wrap gap-2 md:gap-4 justify-center md:justify-start">
                 {navItems.map((item) => (
+                  (() => {
+                    const isActive = activeNavId === item.id;
+                    return (
                   <Card
                     key={item.id}
-                    className="w-[72px] md:w-[96px] h-[32px] md:h-[36px] rounded-[999px] flex items-center justify-center cursor-pointer transition-all duration-300 border"
+                    className="rounded-[999px] inline-flex items-center justify-center cursor-pointer select-none border"
                     style={{
-                      borderColor: '#f0c775',
-                      background: 'linear-gradient(135deg, #5b4027, #3b2919)',
-                      color: '#ffffff'
+                      textDecoration: "none",
+                      textTransform: "uppercase",
+                      letterSpacing: "0.08em",
+                      fontSize: "0.9rem",
+                      padding: "6px 14px",
+                      borderRadius: "999px",
+                      border: isActive ? "1px solid #f0c775" : "1px solid transparent",
+                      background: isActive
+                        ? "linear-gradient(135deg, #5b4027, #3b2919)"
+                        : "transparent",
+                      color: isActive ? "#ffffff" : "#dcdfe5",
+                      transform: isActive ? "translateY(-1px)" : "translateY(0)",
+                      transition:
+                        "background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.1s ease"
                     }}
-                    onClick={() => handleNavClick(`/${item.id}`)}
+                    onClick={() => {
+                      setActiveNavId(item.id);
+                      handleNavClick(`/${item.id}`);
+                    }}
                   >
-                    <div className="[font-family:'Cinzel',Helvetica] font-normal text-white text-sm md:text-base">
+                    <div className="[font-family:'Cinzel',Helvetica] font-normal">
                       {item.label}
                     </div>
                   </Card>
+                    );
+                  })()
                 ))}
               </div>
               
