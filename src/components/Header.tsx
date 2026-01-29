@@ -5,10 +5,12 @@ interface HeaderProps {
   playerCount?: number;
 }
 
+const BASE_URL = "https://rsps-casino.com";
+
 const navItems = [
-  { label: "Home", id: "home" },
-  { label: "Store", id: "store" },
-  { label: "Deposit", id: "deposit" },
+  { label: "Home", id: "home", href: `${BASE_URL}/` },
+  { label: "Store", id: "store", href: `${BASE_URL}/store/` },
+  { label: "Deposit", id: "deposit", href: "#" },
 ];
 
 export const Header: React.FC<HeaderProps> = ({ playerCount = 0 }) => {
@@ -27,10 +29,9 @@ export const Header: React.FC<HeaderProps> = ({ playerCount = 0 }) => {
     setIsMenuOpen(!isMenuOpen);
   };
 
-  const handleNavClick = (path: string) => {
+  const handleNavClick = (href: string) => {
     setIsMenuOpen(false);
-    // You can add routing logic here if using react-router-dom
-    console.log("Navigate to:", path);
+    if (href && href !== "#") window.location.href = href;
   };
 
   return (
@@ -132,7 +133,7 @@ export const Header: React.FC<HeaderProps> = ({ playerCount = 0 }) => {
                     onMouseLeave={() => setHoveredNavId(null)}
                     onClick={() => {
                       setActiveNavId(item.id);
-                      handleNavClick(`/${item.id}`);
+                      handleNavClick(item.href);
                     }}
                   >
                     <div className="[font-family:'Cinzel',Helvetica] font-normal leading-none">
@@ -161,7 +162,7 @@ export const Header: React.FC<HeaderProps> = ({ playerCount = 0 }) => {
                     transition:
                       "background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.1s ease",
                   }}
-                  onClick={() => handleNavClick("/play-now")}
+                  onClick={() => handleNavClick(`${BASE_URL}/play.html`)}
                 >
                   <div className="[font-family:'Cinzel',Helvetica] font-bold text-black leading-none">
                     Play now
