@@ -24,6 +24,11 @@ import {
 import { config } from "../../config"
 import { toast, ToastContainer } from "react-toastify";
 
+import imgLogo from "../../assets/wide-variant-1.png";
+import imgBackground from "../../assets/freepik--a-dark-and-mysterious-forest-in-aiscape-where-anci--908.png";
+import imgTelegram from "../../assets/telegram-1.png";
+import imgXLogo from "../../assets/x-logo-1.png";
+
 export const Frame = (): JSX.Element => {
   const endpoint = config.isMainnet ? config.mainNetRpcUrl : config.devNetRpcUrl;
   const connection = new Connection(endpoint, "confirmed");
@@ -208,7 +213,7 @@ export const Frame = (): JSX.Element => {
             <div
               className="absolute inset-0 pointer-events-none aiscape-bg-layer"
               style={{
-                backgroundImage: 'url(/freepik--a-dark-and-mysterious-forest-in-aiscape-where-anci--908.png)',
+                backgroundImage: `url(${imgBackground})`,
                 opacity: 0.15,
                 mixBlendMode: 'soft-light',
                 zIndex: 1
@@ -222,7 +227,7 @@ export const Frame = (): JSX.Element => {
                 <img
                   className="w-full max-w-[280px] md:max-w-[383px] h-auto max-h-[140px] md:max-h-[180px] object-contain transition-transform hover:scale-105"
                   alt="Wide VARIANT"
-                  src="/wide-variant-1.png"
+                  src={imgLogo}
                 />
               </div>
 
@@ -363,12 +368,12 @@ export const Frame = (): JSX.Element => {
                     <img
                       className="w-[25px] md:w-[31px] h-[25px] md:h-[31px] object-cover cursor-pointer hover:scale-110 transition-transform duration-300"
                       alt="Telegram"
-                      src="/telegram-1.png"
+                      src={imgTelegram}
                     />
                     <img
                       className="w-[24px] md:w-[30px] h-[24px] md:h-[30px] object-cover cursor-pointer hover:scale-110 transition-transform duration-300"
                       alt="X logo"
-                      src="/x-logo-1.png"
+                      src={imgXLogo}
                     />
                   </div>
                 </div>
